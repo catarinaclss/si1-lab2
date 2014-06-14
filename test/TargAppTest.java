@@ -2,8 +2,8 @@ import static org.junit.Assert.*;
 
 import java.text.ParseException;
 
-import model.GerenciadorMetas;
-import model.Meta;
+import models.GerenciadorMetas;
+import models.Meta;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -68,6 +68,8 @@ public class TargAppTest {
 		assertTrue(gerenciador.ordenaPorPrioridade(meta3, meta2) == -1);
 		
 	}
+	
+	
 	
 	
 	

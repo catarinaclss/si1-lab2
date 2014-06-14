@@ -1,4 +1,4 @@
-@(metas: List[model.Meta], semanas: List[Long])
+@(metas: List[models.Meta])
 
 
 @main("Gerenciador de Metas"){
@@ -9,14 +9,13 @@
 		<div class="col-md-2">
 			<ul class="nav nav-pills nav-stacked" style="background-color: #eee">
 				<li class="active"><a href="#">Metas</a></li>
-				<li><a href="/cadastro">Nova meta</a></li>
 			</ul>
 		</div>
 
 		<!--  Conteudo Central -->
 		<div class="col-md-10">
 			<div>
-				@for(semana <- semanas){
+				
 				<div class="panel panel-primary">
 					<div class="panel-heading">Gerenciador de  Metas</div>
 						<div class="panel-body">
@@ -28,14 +27,13 @@
 											<th width="170">Data</th>
 											<th>Descrição</th>
 											<th width="100">Prioridade</th>
-											<th width="130">Status</th>
 										</tr>
 									</thead>
 									
 								</table>
 						</div>
 					</div>
-					}
+					
 				</div>
 			</div>			
 		</div>

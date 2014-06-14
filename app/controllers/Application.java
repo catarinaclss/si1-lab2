@@ -1,14 +1,32 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import views.html.*;
+import models.GerenciadorMetas;
+import models.Meta;
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 public class Application extends Controller {
 
+	@Transactional
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+    	GerenciadorMetas gerenciador = new GerenciadorMetas();
+    	List<Meta> metas = gerenciador.getListMetas();
+		
+		
+		List<Long> semanas = new ArrayList<>();
+		
+		long aux = 0;
+		for (Meta meta : metas) {
+			if(aux != gerenciador.getSemana(meta)){
+				aux = gerenciador.getSemana(meta);
+				semanas.add(aux);
+			}
+		}
+        return ok(index.render(metas));
     }
 
 }
