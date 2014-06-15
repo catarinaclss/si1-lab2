@@ -5,11 +5,38 @@
 <html>
     <head>
         <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
     </head>
-    <body>
+     <body>
+    	<!-- Barra -->
+    	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <img class="imagefloat" src="./img/Home_icon.png" alt="" width="20" height="25" style="float: left;  margin-top: 10px; margin-right: 28px">
+                <a class="navbar-brand" href="#" style="margin-left: -40px">Targapp!</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse" style="float: right;" >
+                <ul class="nav navbar-nav">
+                   
+                     <label>
+					<a href="/cadastro" class = "active" >
+        				<input type="button" class="btn-custom-lighten" value="Nova meta" style="width:200px; height:35px; float: right; margin-right: 80px; margin-top: 10px"/>
+        		 		</a> 
+   			 		</label>   
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+	
+		</div>
         @content
     </body>
 </html>

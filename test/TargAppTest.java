@@ -34,7 +34,7 @@ public class TargAppTest {
 		meta1.setDataFinal("31/07/2014");
 		
 		try{
-			gerenciador.addMeta(meta1);
+			gerenciador.adicionaMeta(meta1);
 		}catch (Exception e){
 			assertEquals(e.getMessage(), "Data Invalida");
 		}

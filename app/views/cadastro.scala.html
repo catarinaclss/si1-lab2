@@ -1,0 +1,40 @@
+@(meta: Form[models.Meta])
+@import helper._
+
+<!--  Conteudo Central -->
+		<div class="col-md-6">
+			<div class="panel panel-primary">
+  				<div class="panel-heading">Cadastrar Metas</div>
+  					<div class="panel-body">
+						<div class="alert alert-success">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<h4>Aviso</h4>
+							Insira as Informações abaixo
+						</div>
+			
+						<form role="form" action="/novaMeta" method="post">
+							<!--  Descrição -->
+							<div class="form-group">
+							
+								@inputText(meta("descricao"), '_label -> "Descrição", 'class -> "form-control")
+														
+								@inputDate(meta("dataFinal"), '_label -> "Data de Finalização", 'class -> "form-control")
+																	
+								@select(meta("prioridade"), options = Seq("1" -> "ALTA", "2" -> "MEDIA",
+								"3" -> "BAIXA") , '_label -> "Prioridade", 'class-> "form-control")
+								
+							</div>
+							
+							<div align="right">
+								<a href="/">
+								<button type="submit" class="btn btn-primary">Cancelar</button>
+							</div>
+							
+							<div align="right">
+								<a href="/novaMeta">
+								<button type="submit" class="btn btn-primary">Criar</button>
+							</div>
+			
+						</form>
+				  </div>
+			</div>

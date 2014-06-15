@@ -28,7 +28,7 @@ public class GerenciadorMetas {
 		return listaMetas.isEmpty();
 	}
 	
-	public void addMeta(Meta meta) throws ParseException, MetaInvalidaException{
+	public void adicionaMeta(Meta meta) throws ParseException, MetaInvalidaException{
 		if(podeInserir(meta) == true){
 			getListMetas().add(meta);
 		}else{
@@ -79,7 +79,7 @@ public class GerenciadorMetas {
 	public void carregaListaMetas() {
         if (listaMetas.isEmpty()){
 			listaMetas = new ArrayList<Meta>();
-            listaMetas = dao.findAllByClassName("Meta");
+            listaMetas = getDao().findAllByClassName("Meta");
         }else{
 			listaMetas = listaMetas;
         }
@@ -112,6 +112,11 @@ public class GerenciadorMetas {
 	}
 	
 	
+	public GenericDAO getDao() {
+		return dao;
+	}
+
+
 	public class ComparatorPrioridade implements Comparator<Meta>{
 		
 

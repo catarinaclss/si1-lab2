@@ -1,16 +1,17 @@
 package models;
 
-import java.text.ParseException;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import play.data.validation.Constraints;
+
 import com.google.common.base.Objects;
 
-@Entity
+@Entity(name = "Meta")
 public class Meta {
 	
 	@Transient
@@ -22,9 +23,15 @@ public class Meta {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
+
+	@Column(name = "descricao")
+	@Constraints.Required
 	private String descricao;
+	@Column(name = "prioridade")
 	private int prioridade;
+	@Column(name = "dataFinal")
 	private String dataFinal;
+	@Column(name = "status")
 	private boolean status;
 
 	public Meta(){}
