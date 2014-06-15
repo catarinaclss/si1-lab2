@@ -1,86 +1,57 @@
-@(metas: List[models.Meta], semanas: List[Long], gerenciador : models.GerenciadorMetas)
+@(metas: List[models.Meta],  meta: Form[models.Meta])
 
 
 @main("Gerenciador de Metas"){
-
 <div class="container-fluid">
-	
-	<div class="row">
+	<div class="container">
 		<!--  Barra Lateral -->
 
-		<div class="col-md-2">
+		<div class="col-md-2" style="margin-top: 60px; margin-left: 5px;">
 			<ul class="nav nav-pills nav-stacked" style="background-color: #eee">
-				<li class="active"><a href="#">Metas</a></li>
+				<li class="active"><h2>@metas.size() Meta(s)</h2></li>
+				
 			</ul>
 		</div>
 
 		<!--  Conteudo Central -->
 		<div class="col-md-10">
-			<div>
-				
-				<div class="panel panel-primary">
-					<div class="panel-heading">Gerenciador de  Metas</div>
-						<div class="panel-body">
-	  						
-	  						
-	    						<table class="table table-striped table-condensed table-hover">
-									<thead>
-										<tr>
-											<th width="170">Data</th>
-											<th>Descrição</th>
-											<th width="100">Prioridade</th>
-											<th width="130">Status</th>
-										</tr>
-									</thead>
-									
-										@for(semana <- semanas){
-				<div class="panel panel-primary">
-					<div class="panel-heading">Gerenciador de  Metas</div>
-						<div class="panel-body">
-	  						
-	  						
-	    						<table class="table table-striped table-condensed table-hover">
-									<thead>
-										<tr>
-											<th width="170">Data</th>
-											<th>Descrição</th>
-											<th width="100">Prioridade</th>
-											<th width="130">Status</th>
-										</tr>
-									</thead>
-									
-									@if(!metas.isEmpty){
-										<tbody>
-											@for(meta <- metas){
-												@if(gerenciador.getSemana(meta) == semana){
-													@if(meta.getStatus() == true){
-														<tr class="success" style="background-image: url(./images/meta_concluida.png); ">
-															<td align="center">@meta.getDataFinal()</td>
-															<td>@meta.getDescricao()</td>
-															
-														</tr>
-													
-													}else{
-														<tr class=warning style="background-image: url(./images/meta_vencida.png);">
-															<td>@meta.getDescricao()</td>
-														
-														</tr>
-													}
-												}
-											}
-										</tbody>
-									}
-								</table>
-						</div>
-					</div>
-					}
-									
-									
-											
+		<div class="content">
+		<div class="col-sm-5">
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Titulo</th>
+							<th>Data limite</th>
+							<th>feita</th>
+							
+
+						</tr>
+					</thead>
+					<tbody>
+						@for(meta <- metas) {
+						<tr>
+							<td>@meta.getDescricao()</td>
+							<td>@meta.getDataFinal()</td>
+							<td>@meta.getStatus()</td>
+							<td>
+								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
+									<input type="submit" class="btn btn-danger" value="Delete">
+								</form>
+							</td>
+							<td>
+								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
+									<input type="checkbox" value="">
+								</form>
+							</td>
+						</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+			
 		
-				</tbody>
-			</div>			
 		</div>
 	</div>
-</div>
 }

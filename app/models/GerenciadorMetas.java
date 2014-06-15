@@ -31,6 +31,7 @@ public class GerenciadorMetas {
 	public void adicionaMeta(Meta meta) throws ParseException, MetaInvalidaException{
 		if(podeInserir(meta) == true){
 			getListMetas().add(meta);
+			getDao().merge(getListMetas());
 		}else{
 			throw new MetaInvalidaException("Data Invalida");
 		}
@@ -38,7 +39,7 @@ public class GerenciadorMetas {
 	}
 	
 	public int getSemana(Meta meta) throws ParseException{
-		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");  
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");  
 		Date data_final = format.parse(meta.getDataFinal());
 		Calendar data = new GregorianCalendar();
 		data.setTime(data_final);
@@ -51,14 +52,14 @@ public class GerenciadorMetas {
 		String day = String.valueOf((cal.get(Calendar.DAY_OF_MONTH)));
 		String month = String.valueOf(cal.get(Calendar.MONTH)+1);
 		String year = String.valueOf(cal.get(Calendar.YEAR));
-		String currentDate = day  + "/" + month + "/" + year; 
+		String currentDate = year  + "-" + month + "-" + day ; 
 		return currentDate;
 	}
 
 	
 	@SuppressWarnings("deprecation")
 	public boolean podeInserir(Meta meta1) throws ParseException {
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");  
 		Date dataMinima = df.parse(getDataAtual());
 		
 		Date dataMaxima =  df.parse(getDataAtual());
@@ -74,7 +75,7 @@ public class GerenciadorMetas {
 	public List<Meta> getListMetas(){
         carregaListaMetas();
         return listaMetas;
-}
+	}
 
 	public void carregaListaMetas() {
         if (listaMetas.isEmpty()){

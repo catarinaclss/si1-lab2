@@ -1,5 +1,6 @@
 package models.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -35,8 +36,14 @@ public class GenericDAOImpl implements GenericDAO {
 	@Override
 	public <T> List<T> findAllByClassName(String className) {
 		String hql = "FROM " + className;
-		Query hqlQuery = JPA.em().createQuery(hql);
-		return hqlQuery.getResultList();
+        List<T> retorno;
+        try{
+                Query hqlQuery = JPA.em().createQuery(hql);
+                retorno = hqlQuery.getResultList();
+        }catch(Exception e){
+                retorno = (List<T>) new ArrayList<Query>();
+        }
+        return retorno;
 	}
 
 	@Override
@@ -51,7 +58,7 @@ public class GenericDAOImpl implements GenericDAO {
 
 	@Override
 	public <T> List<T> findByAttributeName(String className,
-			String attributeName, String attributeValue) {
+		String attributeName, String attributeValue) {
 		String hql = "FROM " + className + " c" + " WHERE c." + attributeName
 				+ " = '" + attributeValue + "'";
 		Query hqlQuery = JPA.em().createQuery(hql);

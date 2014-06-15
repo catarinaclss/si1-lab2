@@ -3,9 +3,11 @@
 # ~~~~
 
 # Home page
-GET    /						controllers.Application.index()
+GET    /						controllers.Application.listaMetas()
 GET   /cadastro                 controllers.Application.cadastro()
 POST   /novaMeta                 controllers.Application.novaMeta()
+POST    /listaMetas/:id/delete             controllers.Application.deletaMeta(id: Long)
+POST    /listaMetas/:id/setStatusMeta            controllers.Application.setStatusMeta(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

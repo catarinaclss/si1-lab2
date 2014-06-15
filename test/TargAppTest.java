@@ -31,7 +31,7 @@ public class TargAppTest {
 	public void devePossuirLimiteParaInsercao() throws ParseException{
 		
 		meta1.setDescricao("descricao");
-		meta1.setDataFinal("31/07/2014");
+		meta1.setDataFinal("2014-07-31");
 		
 		try{
 			gerenciador.adicionaMeta(meta1);
@@ -42,7 +42,7 @@ public class TargAppTest {
 		assertFalse(gerenciador.podeInserir(meta1));
 		assertFalse(gerenciador.getListMetas().contains(meta1));
 		
-		meta1.setDataFinal("18/06/2014");
+		meta1.setDataFinal("2014-06-18");
 		assertTrue(gerenciador.podeInserir(meta1));
 		
 	}
@@ -50,9 +50,9 @@ public class TargAppTest {
 	@Test
 	public void deveOrdenarPorData() throws ParseException{
 		
-		meta1.setDataFinal("18/06/2014");
-		meta2.setDataFinal("15/06/2014");
-		meta3.setDataFinal("13/06/2014");
+		meta1.setDataFinal("2014-06-18");
+		meta2.setDataFinal("2014-06-15");
+		meta3.setDataFinal("2014-06-13");
 		assertTrue(gerenciador.ordenaPorData(meta1, meta2) == 1);
 		assertTrue(gerenciador.ordenaPorData(meta3, meta2) == -1);
 		
@@ -66,6 +66,8 @@ public class TargAppTest {
 		meta3.setPrioridade(3);
 		assertTrue(gerenciador.ordenaPorPrioridade(meta1, meta2) == 1);
 		assertTrue(gerenciador.ordenaPorPrioridade(meta3, meta2) == -1);
+		
+
 		
 	}
 	
