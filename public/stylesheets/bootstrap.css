@@ -2464,6 +2464,7 @@ fieldset[disabled] .btn-link:focus {
 .btn-custom-darken.active {
   color: rgba(255, 255, 255, 0.75);
 }
+
 .btn-custom-darken {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);

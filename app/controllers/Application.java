@@ -1,16 +1,15 @@
 package controllers;
  
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
- 
+
 import models.GerenciadorMetas;
 import models.Meta;
-import models.dao.GenericDAO;
-import models.dao.GenericDAOImpl;
 import play.data.Form;
+import play.data.validation.ValidationError;
 import play.db.jpa.Transactional;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
 import views.html.*;
  
 public class Application extends Controller {
@@ -52,13 +51,26 @@ public class Application extends Controller {
 	}
  
 	@Transactional
-	public static Result novaMeta() {
+	public static Result novaMeta() throws ParseException {
  
 		List<Meta> result = gerenciador.getDao().findAllByClassName("Meta");
  
 		Form<Meta> filledForm = metaForm.bindFromRequest();
-		if (filledForm.hasErrors()) {
-			return badRequest(cadastro.render(result, filledForm));
+		Meta meta = filledForm.get();
+		System.out.println(gerenciador.podeInserir(meta));
+		if (filledForm.hasErrors() || !gerenciador.podeInserir(meta)) {
+			
+			String errorMsg = "";
+            java.util.Map<String, List<play.data.validation.ValidationError>> errorsAll = filledForm.errors();
+            for (String field : errorsAll.keySet()) {
+                errorMsg += field + " ";
+                for (ValidationError error : errorsAll.get(field)) {
+                    errorMsg += error.message() + ", ";
+                }
+            }
+            flash("error", "Please correct the following errors: " + errorMsg);
+			return badRequest(detail.render(filledForm));
+			
 		} else {
 			gerenciador.getDao().persist(filledForm.get());
 			gerenciador.getDao().flush();

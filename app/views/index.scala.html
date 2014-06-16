@@ -21,7 +21,7 @@
 				<table class="table table-hover" >
 					<thead style="background-color: #4c4c4c;">
 						<tr>
-							<th style="width: 500px">Titulo</th>
+							<th style="width: 500px">Descrição</th>
 							<th>Data limite</th>
 							<th>Status</th>
 							
@@ -31,13 +31,29 @@
 					<tbody>
 						@for(meta <- metas) {
 							@if(meta.getPrioridade() == 1){
-								<tr style="background-color: #f65d5d; margin-top: 5px;" >
+								@if(meta.getStatus() == true){
+									<tr style="background-color: #87c87d; margin-top: 5px;" >
+								}else{
+									<tr style="background-color: #f56868; margin-top: 5px;" >
+								}
+								
 								<td style="margin-left: 10px"><img src=@routes.Assets.at("images/pin_icon.png") alt="" style="margin-left: -15px; margin-top: -8px;"></img>@meta.getDescricao()</td>
 								<td>@meta.getDataFinal()</td>
 								<td>@meta.getStatus()</td>
 								<td>
 								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
-									<input type="submit" class="btn btn-danger" value="Delete">
+									<label>
+										<img alt="" src="@routes.Assets.at("images/delete_icon.png")">
+										</a>
+									</label>
+								</form>	
+								
+								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
+									<label>
+										<a href="/cadastro">
+										<img alt="" src="@routes.Assets.at("images/edit_icon.png")">
+										</a>
+									</label>
 								</form>
 								</td>
 								<td>
@@ -53,7 +69,19 @@
 								<td>@meta.getStatus()</td>
 								<td>
 								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
-									<input type="submit" class="btn btn-danger" value="Delete">
+									<label>
+										<a href="/">
+										<img alt="" src="@routes.Assets.at("images/delete_icon.png")">
+										</a>
+									</label>
+								</form>	
+								
+								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
+									<label>
+										<a href="/cadastro">
+										<img alt="" src="@routes.Assets.at("images/edit_icon.png")">
+										</a>
+									</label>
 								</form>
 								</td>
 								<td>
@@ -68,9 +96,25 @@
 								<td>@meta.getDataFinal()</td>
 								<td>@meta.getStatus()</td>
 								<td>
+								<label>
 								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
-									<input type="submit" class="btn btn-danger" value="Delete">
-								</form>
+									
+										<a href="/listaMetas">
+										<img alt="" src="@routes.Assets.at("images/delete_icon.png")">
+										</a>
+								
+								</form>	
+									</label>
+								
+								
+									<label>
+										<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
+										<a href="/cadastro">
+										<img alt="" src="@routes.Assets.at("images/edit_icon.png")">
+										</a>
+										</form>
+									</label>
+								
 								</td>
 								<td>
 								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
