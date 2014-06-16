@@ -6,45 +6,81 @@
 	<div class="container">
 		<!--  Barra Lateral -->
 
-		<div class="col-md-2" style="margin-top: 60px; margin-left: 5px;">
-			<ul class="nav nav-pills nav-stacked" style="background-color: #eee">
+		<div class="col-md-6" style="margin-top: 60px; margin-left: 5px; float: left;">
+			<ul class="nav nav-pills nav-stacked" >
 				<li class="active"><h2>@metas.size() Meta(s)</h2></li>
 				
 			</ul>
 		</div>
 
 		<!--  Conteudo Central -->
-		<div class="col-md-10">
+		<div class="col-md-10" style=" width: 1000px; float: right; margin-top: -36px; margin-left: 300px">
 		<div class="content">
-		<div class="col-sm-5">
+		<div class="col-md-6" style=" width: 1000px; height: 80px;" >
 			<div class="table-responsive">
-				<table class="table table-hover">
-					<thead>
+				<table class="table table-hover" >
+					<thead style="background-color: #4c4c4c;">
 						<tr>
-							<th>Titulo</th>
+							<th style="width: 500px">Titulo</th>
 							<th>Data limite</th>
-							<th>feita</th>
+							<th>Status</th>
 							
 
 						</tr>
 					</thead>
 					<tbody>
 						@for(meta <- metas) {
-						<tr>
-							<td>@meta.getDescricao()</td>
-							<td>@meta.getDataFinal()</td>
-							<td>@meta.getStatus()</td>
-							<td>
+							@if(meta.getPrioridade() == 1){
+								<tr style="background-color: #f65d5d; margin-top: 5px;" >
+								<td style="margin-left: 10px"><img src=@routes.Assets.at("images/pin_icon.png") alt="" style="margin-left: -15px; margin-top: -8px;"></img>@meta.getDescricao()</td>
+								<td>@meta.getDataFinal()</td>
+								<td>@meta.getStatus()</td>
+								<td>
 								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
 									<input type="submit" class="btn btn-danger" value="Delete">
 								</form>
-							</td>
-							<td>
+								</td>
+								<td>
 								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
 									<input type="checkbox" value="">
 								</form>
 							</td>
 						</tr>
+							}@if(meta.getPrioridade() == 2){
+								<tr style="background-color: #e8e16d; margin-top: 5px;" >
+								<td style="margin-left: 10px"><img src=@routes.Assets.at("images/pin_icon.png") alt="" style="margin-left: -15px; margin-top: -8px;"></img>@meta.getDescricao()</td>
+								<td>@meta.getDataFinal()</td>
+								<td>@meta.getStatus()</td>
+								<td>
+								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
+									<input type="submit" class="btn btn-danger" value="Delete">
+								</form>
+								</td>
+								<td>
+								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
+									<input type="checkbox" value="">
+								</form>
+								</td>
+							</tr>
+							}@if(meta.getPrioridade() == 3){
+								<tr style="background-color: #8eccde; margin-top: 5px;" >
+								<td style="margin-left: 10px"><img src=@routes.Assets.at("images/pin_icon.png") alt="" style="margin-left: -15px; margin-top: -8px;"></img>@meta.getDescricao()</td>
+								<td>@meta.getDataFinal()</td>
+								<td>@meta.getStatus()</td>
+								<td>
+								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
+									<input type="submit" class="btn btn-danger" value="Delete">
+								</form>
+								</td>
+								<td>
+								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
+									<input type="checkbox" value="">
+								</form>
+								</td>
+							</tr>
+							}
+							
+							
 						}
 					</tbody>
 				</table>
