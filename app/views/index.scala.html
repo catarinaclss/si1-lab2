@@ -1,4 +1,4 @@
-@(metas: List[models.Meta],  meta: Form[models.Meta])
+@(semanas: List[Integer], metas: List[models.Meta],  meta: Form[models.Meta])
 
 
 @main("Gerenciador de Metas"){
@@ -13,6 +13,8 @@
 				
 			</ul>
 		</div>
+		@if(!metas.isEmpty){
+		
 
 		<!--  Conteudo Central -->
 		<div class="col-md-10" style=" width: 1000px; float: right; margin-top: -36px; margin-left: 300px">
@@ -122,4 +124,12 @@
 		
 		</div>
 	</div>
+	
+	
+	}else{
+				<div class = "col-md-6" style="margin-top: 80px; margin-left: -20%; border-color: #999999; border-width: 1px;">
+					<h2  style="color: #999999; size: 14px;">Você não possui metas cadastradas!</h2>
+				</div>
+					
+				}
 }

@@ -13,7 +13,7 @@ import play.data.validation.Constraints.Required;
 import com.google.common.base.Objects;
 
 @Entity(name = "Meta")
-public class Meta {
+public class Meta implements Comparable<Meta> {
 	
 	@Transient
 	private final int ALTA = 1;
@@ -107,6 +107,14 @@ public class Meta {
 	public int hashCode() {
 		return Objects.hashCode(this.getDescricao());
 	}
+
+	@Override
+	public int compareTo(Meta meta) {
+
+		return getDataFinal().compareTo(meta.getDataFinal());
+	}
+
+
 
 	
 	

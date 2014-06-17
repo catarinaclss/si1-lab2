@@ -1,6 +1,7 @@
 package controllers;
  
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,10 +21,26 @@ public class Application extends Controller {
 	private static final Form<Meta> metaForm = Form.form(Meta.class);
  
 	@Transactional
-	public static Result listaMetas() {
+	public static Result listaMetas() throws ParseException{
 		List<Meta> metas = gerenciador.getDao().findAllByClassName("Meta");
+
+		
+		
+    	
+    	List<Integer> semanas = new ArrayList<>();
+ 
+		
+		int aux = 0;
+		for (Meta meta : metas) {
+			if(aux != gerenciador.getSemana(meta)){
+				aux = gerenciador.getSemana(meta);
+				semanas.add(aux);
+			}
+		}
+		Collections.sort(metas);
 		Collections.sort(metas, new ComparadorPrioridades());
-		return ok(index.render(metas, metaForm));
+		Collections.sort(semanas);
+		return ok(index.render(semanas, metas, metaForm));
 	}
 	
 	@Transactional
@@ -90,15 +107,17 @@ public class Application extends Controller {
  
 	@Transactional
  	public static Result setStatusMeta(Long id){
- 		long aux1 = id;
- 		int aux2 = (int) aux1;
- 
- 		Meta meta = (Meta) gerenciador.getDao().findAllByClassName("Meta").get(aux2);
- 		meta.setStatus(true);
- 		gerenciador.getDao().remove(meta);
- 		gerenciador.getDao().persist(meta);
+
+ 		
+ 		Meta meta = gerenciador.getDao().findByEntityId(Meta.class, id);
+ 		if(meta.getStatus()){
+ 			meta.setStatus(false);
+ 		}else{
+ 			meta.setStatus(true);
+ 		}
+ 		
+ 		gerenciador.getDao().merge(meta);
  		gerenciador.getDao().flush();
- 
  		return redirect(routes.Application.listaMetas());
  	}
  

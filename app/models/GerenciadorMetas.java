@@ -39,11 +39,19 @@ public class GerenciadorMetas {
 	}
 	
 	public int getSemana(Meta meta) throws ParseException{
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");  
-		Date data_final = format.parse(meta.getDataFinal());
-		Calendar data = new GregorianCalendar();
-		data.setTime(data_final);
-		return data.get(Calendar.WEEK_OF_YEAR);
+		
+		try {
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");  
+			Date data_final = format.parse(meta.getDataFinal());
+			Calendar data = new GregorianCalendar();
+			data.setTime(data_final);
+			Calendar atual = Calendar.getInstance();
+			
+			return atual.get(Calendar.WEEK_OF_YEAR) - data.get(Calendar.WEEK_OF_YEAR) +1;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+		return -1;
 	}
 	
 	public static String getDataAtual(){
