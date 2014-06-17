@@ -18,25 +18,6 @@ public class Application extends Controller {
  
 	private static GerenciadorMetas gerenciador = new GerenciadorMetas();
 	private static final Form<Meta> metaForm = Form.form(Meta.class);
-	//private static List<Long> semanas = new ArrayList<>();
- 
- 
- 
- 
-//	@Transactional
-//    public static Result index()  throws ParseException  {
-//    	List<Meta> metas = gerenciador.getListMetas();
-//		
-//		long aux = 0;
-//		for (Meta meta : metas) {
-//			if(aux != gerenciador.getSemana(meta)){
-//				aux = gerenciador.getSemana(meta);
-//				semanas.add(aux);
-//			}
-//		}
-//        return ok(index.render(metas, semanas, gerenciador));
-//    }
- 
  
 	@Transactional
 	public static Result listaMetas() {

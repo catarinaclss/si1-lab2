@@ -5,8 +5,8 @@
 # Home page
 GET    /						                 controllers.Application.listaMetas()
 GET    /cadastro                                 controllers.Application.cadastro()
-GET   	/concluirEdicao					         controllers.Application.editarMeta(id: java.lang.Long)
-POST   /novaMeta                                 controllers.Application.novaMeta()
+POST   	/concluirEdicao					         controllers.Application.editarMeta(id: Long)
+POST    /novaMeta                                 controllers.Application.novaMeta()
 POST	/editar							 		 controllers.Application.iniciarEdicao()
 POST    /listaMetas/:id/delete                   controllers.Application.deletaMeta(id: Long)
 POST    /listaMetas/:id/setStatusMeta            controllers.Application.setStatusMeta(id: Long)
