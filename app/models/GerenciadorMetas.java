@@ -48,7 +48,7 @@ public class GerenciadorMetas {
 			data.setTime(data_final);
 			Calendar atual = Calendar.getInstance();
 			
-			return atual.get(Calendar.WEEK_OF_YEAR) - data.get(Calendar.WEEK_OF_YEAR) +1;
+			return data.get(Calendar.WEEK_OF_YEAR) - atual.get(Calendar.WEEK_OF_YEAR) +1;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}		
@@ -109,15 +109,15 @@ public class GerenciadorMetas {
 	}
 	
 	public int ordenaPorPrioridade(Meta meta1, Meta meta2) {
-		int result;
+	
 		if (meta1.getPrioridade() > meta2.getPrioridade()){
-			result = -1;
+			return -1;
 		}else if(meta1.getPrioridade() < meta2.getPrioridade()){
-			result = 1;
-		}else{
-			result = 0;
+			return 1;
+		}else{ 
+			return 0;
 		}
-		return result;
+
 		
 	}
 	

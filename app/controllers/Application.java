@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import models.ComparadorPrioridades;
+import models.ComparadorPorData;
 import models.GerenciadorMetas;
 import models.Meta;
 import play.data.DynamicForm;
@@ -20,15 +21,14 @@ public class Application extends Controller {
 	private static GerenciadorMetas gerenciador = new GerenciadorMetas();
 	private static final Form<Meta> metaForm = Form.form(Meta.class);
 	private static int feitas = 0;
+	private static int pendentes = 0;
  
 	@Transactional
 	public static Result listaMetas() throws ParseException{
 		
 		List<Meta> metas = gerenciador.getDao().findAllByClassName("Meta");
-		int pendentes = metas.size() - feitas;
+		pendentes = metas.size() - feitas;
 		
-		
-    	
     	List<Integer> semanas = new ArrayList<>();
  
 		
@@ -39,8 +39,9 @@ public class Application extends Controller {
 				semanas.add(aux);
 			}
 		}
-		Collections.sort(metas);
 		Collections.sort(metas, new ComparadorPrioridades());
+		Collections.sort(metas, new ComparadorPorData());
+		
 		Collections.sort(semanas);
 		return ok(index.render(semanas, metas, metaForm, feitas, pendentes));
 	}
@@ -49,7 +50,8 @@ public class Application extends Controller {
 	public static Result cadastro() {
 		List<Meta> metas = gerenciador.getDao().findAllByClassName("Meta");
 		Collections.sort(metas, new ComparadorPrioridades());
-		return ok(cadastro.render(metaForm));
+		Collections.sort(metas, new ComparadorPorData());
+		return ok(cadastro.render(metaForm, feitas, pendentes));
 	}
  
 	@Transactional
@@ -63,7 +65,7 @@ public class Application extends Controller {
 		if (filledForm.hasErrors() || !gerenciador.podeInserir(meta)) {
 			
 			flash("sucess", "Não foi possível inserir meta. Tente novamente.");
-			return badRequest(cadastro.render(filledForm));
+			return badRequest(cadastro.render(filledForm, feitas, pendentes ));
 			
 		} else {
 			gerenciador.getDao().persist(meta);
@@ -88,7 +90,7 @@ public class Application extends Controller {
 		DynamicForm requestData = Form.form().bindFromRequest();
 		long id = Long.parseLong(requestData.get("ID"));
 		Form<Meta> metaForm = Form.form(Meta.class).fill(gerenciador.getDao().findByEntityId(Meta.class, id));
-		return ok(editar.render(id, metaForm));
+		return ok(editar.render(id, metaForm, feitas, pendentes));
 	}
 	
 	@Transactional
@@ -96,7 +98,7 @@ public class Application extends Controller {
 		Form<Meta> metaForm = Form.form(Meta.class).fill(gerenciador.getDao().findByEntityId(Meta.class, id));
 		Form<Meta> alterarForm = Form.form(Meta.class).bindFromRequest();
 		if (alterarForm.hasErrors()) {
-			return badRequest(editar.render(id, alterarForm));
+			return badRequest(editar.render(id, alterarForm,feitas, pendentes ));
 		}
 		
 		gerenciador.getDao().merge(alterarForm.get());
@@ -112,9 +114,13 @@ public class Application extends Controller {
  		
  		if(meta.getStatus()){
  			meta.setStatus(false);
+ 			feitas--;
+ 			pendentes++;
  		}else{
  			meta.setStatus(true);
  			feitas++;
+ 			pendentes--;
+ 			
  		}
  		gerenciador.setMetasConcluidas(feitas);
  		gerenciador.getDao().merge(meta);
