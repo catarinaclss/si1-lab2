@@ -34,86 +34,55 @@
 						</tr>
 					</thead>
 					<tbody>
-						@for(meta <- metas) {
+					
+					@for(meta <- metas) {
+						@if(meta.getStatus() == true){
+							<tr style="background-color: #87c87d; margin-top: 5px;" >
+						
+						}else{
+						
+						
 							@if(meta.getPrioridade() == 1){
-								@if(meta.getStatus() == true){
-									<tr style="background-color: #87c87d; margin-top: 5px;" >
-								}else {
-									<tr style="background-color: #f56868; margin-top: 5px;" >
-								}
-								
-								<td style="margin-left: 10px"><img src=@routes.Assets.at("images/pin_icon.png") alt="" style="margin-left: -15px; margin-top: -8px;"></img>@meta.getDescricao()</td>
-								<td>@meta.getDataFinal()</td>
-								<td>@meta.getStatus()</td>
-								<td>
-								<form action="@routes.Application.deletaMeta(meta.getId()) "method="post">
-									<input type="image" src="@routes.Assets.at("images/delete_icon.png")" alt="Submit"> 
-									
-								</form>	
-								
-								<form action="/editar" method="post">
-									<a href="/editar">
-									<input type="image" src="@routes.Assets.at("images/edit_icon.png")" alt="Submit" id="@meta.getId()" name="ID" value="@meta.getId()" > 
-									</a>
-								</form>		
-								</td>
-								<td>
-								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
-									<input type="checkbox" value="">
-								</form>
-							</td>
-						</tr>
+								<tr style="background-color: #f56868; margin-top: 5px;" >
 							}@if(meta.getPrioridade() == 2){
 								<tr style="background-color: #e8e16d; margin-top: 5px;" >
-								<td style="margin-left: 10px"><img src=@routes.Assets.at("images/pin_icon.png") alt="" style="margin-left: -15px; margin-top: -8px;"></img>@meta.getDescricao()</td>
-								<td>@meta.getDataFinal()</td>
-								<td>@meta.getStatus()</td>
-								<td>
-								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
-									<input type="image" src="@routes.Assets.at("images/delete_icon.png")" alt="Submit"> 
-								</form>	
-								
-								<form action="/editar" method="post">
-								
-									<a href="/editar">
-									<input type="image" src="@routes.Assets.at("images/edit_icon.png")" alt="Submit" id="@meta.getId()" name="ID" value="@meta.getId()" > 
-									</a>
-								</form>	
-								</td>
-								<td>
-								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
-									<input type="checkbox" value="">
-								</form>
-								</td>
-							</tr>
 							}@if(meta.getPrioridade() == 3){
 								<tr style="background-color: #8eccde; margin-top: 5px;" >
-								<td style="margin-left: 10px"><img src=@routes.Assets.at("images/pin_icon.png") alt="" style="margin-left: -15px; margin-top: -8px;"></img>@meta.getDescricao()</td>
-								<td>@meta.getDataFinal()</td>
-								<td>@meta.getStatus()</td>
-								<td>
-								
+							}
+						}		
+							<td style="margin-left: 10px"><img src=@routes.Assets.at("images/pin_icon.png") alt="" style="margin-left: -15px; margin-top: -8px;"></img>@meta.getDescricao()</td>
+							<td>@meta.getDataFinal()</td>
+							<td>@meta.getStringStatus()</td>
+							<td>
 								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
 									<input type="image" src="@routes.Assets.at("images/delete_icon.png")" alt="Submit"> 
-									
 								</form>	
 									
 								<form action="/editar" method="post">
 									<a href="/editar">
 									<input type="image" src="@routes.Assets.at("images/edit_icon.png")" alt="Submit" id="@meta.getId()" name="ID" value="@meta.getId()" > 
 									</a>
-								
 								</form>	
 								
-								</td>
+							</td>
+								
+							@if(meta.getStatus() == true){
+								
 								<td>
 								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
-									<input type="checkbox" value="">
+									<input type="image" src="@routes.Assets.at("images/check.png")" alt="Submit"> 
+								</form>
+								</td>
+							
+							}else{	
+								<td>
+								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
+									<input type="image" src="@routes.Assets.at("images/uncheck.png")" alt="Submit"> 
 								</form>
 								</td>
 							</tr>
-							}
 							
+							}
 							
 						}
 					</tbody>
@@ -127,7 +96,7 @@
 	
 	
 	}else{
-				<div class = "col-md-6" style="margin-top: 80px; margin-left: -20%; border-color: #999999; border-width: 1px;">
+				<div class = "col-md-6" style="margin-top: 80px; margin-left: -20%;">
 					<h2  style="color: #999999; size: 14px;">Você não possui metas cadastradas!</h2>
 				</div>
 					

@@ -63,6 +63,13 @@ public class Meta implements Comparable<Meta> {
 		this.status = status;
 	}
 
+	public String getStringStatus(){
+		if(getStatus() == true){
+			return "CONCLUIDA";
+		}else{
+			return "PENDENTE";
+		}
+	}
 	public String getDescricao() {
 		return descricao;
 	}

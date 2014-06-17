@@ -85,10 +85,7 @@ public class Application extends Controller {
 		
 		DynamicForm requestData = Form.form().bindFromRequest();
 		long id = Long.parseLong(requestData.get("ID"));
-		
-		
 		Form<Meta> metaForm = Form.form(Meta.class).fill(gerenciador.getDao().findByEntityId(Meta.class, id));
-
 		return ok(editar.render(id, metaForm));
 	}
 	
