@@ -18,7 +18,8 @@ public class GerenciadorMetas {
 	
 	private List<Meta> listaMetas;
 	private final int MAX_DIAS = 42;
-	private GenericDAO dao = new GenericDAOImpl(); 
+	private GenericDAO dao = new GenericDAOImpl();
+	private int concluidas = 0;
 	
 	public GerenciadorMetas(){
 		listaMetas = new ArrayList<Meta>();
@@ -120,6 +121,13 @@ public class GerenciadorMetas {
 		
 	}
 	
+	public int getMetasConcluidas(){
+		return concluidas;
+	}
+	
+	public void setMetasConcluidas(int contador){
+		this.concluidas = contador;
+	}
 	
 	public GenericDAO getDao() {
 		return dao;

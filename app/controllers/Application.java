@@ -19,11 +19,13 @@ public class Application extends Controller {
  
 	private static GerenciadorMetas gerenciador = new GerenciadorMetas();
 	private static final Form<Meta> metaForm = Form.form(Meta.class);
+	private static int feitas = 0;
  
 	@Transactional
 	public static Result listaMetas() throws ParseException{
+		
 		List<Meta> metas = gerenciador.getDao().findAllByClassName("Meta");
-
+		int pendentes = metas.size() - feitas;
 		
 		
     	
@@ -40,7 +42,7 @@ public class Application extends Controller {
 		Collections.sort(metas);
 		Collections.sort(metas, new ComparadorPrioridades());
 		Collections.sort(semanas);
-		return ok(index.render(semanas, metas, metaForm));
+		return ok(index.render(semanas, metas, metaForm, feitas, pendentes));
 	}
 	
 	@Transactional
@@ -105,17 +107,21 @@ public class Application extends Controller {
 	@Transactional
  	public static Result setStatusMeta(Long id){
 
- 		
+ 
  		Meta meta = gerenciador.getDao().findByEntityId(Meta.class, id);
+ 		
  		if(meta.getStatus()){
  			meta.setStatus(false);
  		}else{
  			meta.setStatus(true);
+ 			feitas++;
  		}
- 		
+ 		gerenciador.setMetasConcluidas(feitas);
  		gerenciador.getDao().merge(meta);
  		gerenciador.getDao().flush();
  		return redirect(routes.Application.listaMetas());
  	}
+	
+	
  
 }
