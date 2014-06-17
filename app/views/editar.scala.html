@@ -1,4 +1,4 @@
-@(meta: Form[models.Meta])
+@(id: Long,  meta: Form[models.Meta])
 @import helper._
 
 <html>
@@ -16,10 +16,10 @@
 						<div class="alert alert-success">
 							<button type="button" class="close" data-dismiss="alert">x</button>
 							<h4>Aviso</h4>
-							Insira as Informações abaixo
+							Edite as Informações abaixo
 						</div>
 			
-						<form action="@routes.Application.novaMeta()" method="post">
+						@form(routes.Application.editarMeta(id)) {
 							<!--  Descri��o -->
 							<div class="form-group">
 							
@@ -31,7 +31,7 @@
 								"3" -> "BAIXA") , '_label -> "Prioridade", 'class-> "form-control")
 								
 								@if(flash.contains("success")) {
-                					<center><p class="success" style="color:#FF0000">
+                					<center><p class="success" style="color:#ef5959">
                    				 	@flash.get("success")
                 					</p></center>
             					}
@@ -39,11 +39,9 @@
 							</div>
 							
 							<div align="left" style="margin-left: 100px; margin-bottom: -47px;">
-								<a href="/novaMeta">
 								<button type="submit" class="btn btn-primary">Salvar</button>
 							</div>
-						</form>
-						
+						}
 							<div align="left">
 								<a href="@routes.Application.listaMetas()"">
 								<button type="submit" class="btn btn-primary">Cancelar</button>

@@ -1,12 +1,14 @@
 package controllers;
  
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.List;
 
+import models.ComparadorPrioridades;
 import models.GerenciadorMetas;
 import models.Meta;
+import play.data.DynamicForm;
 import play.data.Form;
-import play.data.validation.ValidationError;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -39,15 +41,15 @@ public class Application extends Controller {
 	@Transactional
 	public static Result listaMetas() {
 		List<Meta> metas = gerenciador.getDao().findAllByClassName("Meta");
- 
+		Collections.sort(metas, new ComparadorPrioridades());
 		return ok(index.render(metas, metaForm));
 	}
 	
 	@Transactional
 	public static Result cadastro() {
 		List<Meta> metas = gerenciador.getDao().findAllByClassName("Meta");
- 
-		return ok(cadastro.render(metas, metaForm));
+		Collections.sort(metas, new ComparadorPrioridades());
+		return ok(cadastro.render(metaForm));
 	}
  
 	@Transactional
@@ -57,22 +59,14 @@ public class Application extends Controller {
  
 		Form<Meta> filledForm = metaForm.bindFromRequest();
 		Meta meta = filledForm.get();
-		System.out.println(gerenciador.podeInserir(meta));
+	
 		if (filledForm.hasErrors() || !gerenciador.podeInserir(meta)) {
 			
-			String errorMsg = "";
-            java.util.Map<String, List<play.data.validation.ValidationError>> errorsAll = filledForm.errors();
-            for (String field : errorsAll.keySet()) {
-                errorMsg += field + " ";
-                for (ValidationError error : errorsAll.get(field)) {
-                    errorMsg += error.message() + ", ";
-                }
-            }
-            flash("error", "Please correct the following errors: " + errorMsg);
-			return badRequest(detail.render(filledForm));
+			flash("sucess", "Não foi possível inserir meta. Tente novamente.");
+			return badRequest(cadastro.render(filledForm));
 			
 		} else {
-			gerenciador.getDao().persist(filledForm.get());
+			gerenciador.getDao().persist(meta);
 			gerenciador.getDao().flush();
 			return redirect(routes.Application.listaMetas());
 		}
@@ -87,6 +81,31 @@ public class Application extends Controller {
  		}
  		return redirect(routes.Application.listaMetas());
  	}
+	
+	@Transactional
+	public static Result iniciarEdicao() {
+		
+		DynamicForm requestData = Form.form().bindFromRequest();
+		long id = Long.parseLong(requestData.get("ID"));
+		
+		
+		Form<Meta> metaForm = Form.form(Meta.class).fill(gerenciador.getDao().findByEntityId(Meta.class, id));
+
+		return ok(editar.render(id, metaForm));
+	}
+	
+	@Transactional
+	public static Result editarMeta(Long id) {
+		Form<Meta> metaForm = Form.form(Meta.class).fill(gerenciador.getDao().findByEntityId(Meta.class, id));
+		Form<Meta> alterarForm = Form.form(Meta.class).bindFromRequest();
+		if (alterarForm.hasErrors()) {
+			return badRequest(editar.render(id, alterarForm));
+		}
+		
+		gerenciador.getDao().merge(alterarForm.get());
+		gerenciador.getDao().flush();
+		return redirect(routes.Application.listaMetas());
+	}
  
 	@Transactional
  	public static Result setStatusMeta(Long id){

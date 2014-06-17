@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import play.data.validation.Constraints;
+import play.data.validation.Constraints.Required;
 
 import com.google.common.base.Objects;
 
@@ -25,11 +26,12 @@ public class Meta {
 	private Long id;
 
 	@Column(name = "descricao")
-	@Constraints.Required
+	@Required(message="Campo obrigatório")
 	private String descricao;
 	@Column(name = "prioridade")
 	private int prioridade;
 	@Column(name = "dataFinal")
+	@Required(message="Data Maxima de 6 Semanas")
 	private String dataFinal;
 	@Column(name = "status")
 	private boolean status;

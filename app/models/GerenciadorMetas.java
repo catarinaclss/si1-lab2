@@ -66,7 +66,7 @@ public class GerenciadorMetas {
 		dataMaxima.setDate(dataMaxima.getDate() + MAX_DIAS); 
 		Date dataFinal = df.parse(meta1.getDataFinal());  
 		
-		if(dataMaxima.compareTo(dataFinal) >= 0 && dataMinima.compareTo(dataFinal) <= 0){
+		if(!meta1.equals(null) && dataMaxima.compareTo(dataFinal) >= 0 && dataMinima.compareTo(dataFinal) <= 0){
 			return true;
 		}
 		return false;
@@ -118,26 +118,5 @@ public class GerenciadorMetas {
 	}
 
 
-	public class ComparatorPrioridade implements Comparator<Meta>{
-		
-
-		@Override
-		public int compare(Meta meta1, Meta meta2) {
-			int result = 0;
-			try {
-				if (ordenaPorData(meta1, meta2) == 1 && ordenaPorPrioridade(meta1, meta2) == 1){
-					result = 1;
-				}else if (ordenaPorData(meta1, meta2) == -1 && ordenaPorPrioridade(meta1, meta2) == -1){
-					result = -1;
-				}else{
-					result = 0;
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			return result;
-		}
-	
-	}
 	
 }
