@@ -95,21 +95,27 @@ public class Application extends Controller {
 	
 	@Transactional
 	public static Result editarMeta(Long id) {
-		Form<Meta> metaForm = Form.form(Meta.class).fill(gerenciador.getDao().findByEntityId(Meta.class, id));
-		Form<Meta> alterarForm = Form.form(Meta.class).bindFromRequest();
-		if (alterarForm.hasErrors()) {
-			return badRequest(editar.render(id, alterarForm,feitas, pendentes ));
-		}
-		
-		gerenciador.getDao().merge(alterarForm.get());
-		gerenciador.getDao().flush();
-		return redirect(routes.Application.listaMetas());
+        boolean thisMarked = gerenciador.getDao().findByEntityId(Meta.class, id).getStatus();
+        Form<Meta> metaForm = Form.form(Meta.class).fill(gerenciador.getDao().findByEntityId(Meta.class, id));
+        Form<Meta> alterarForm = Form.form(Meta.class).bindFromRequest();
+        if (alterarForm.hasErrors()) {
+                return badRequest(editar.render(id, alterarForm,feitas, pendentes ));
+        }
+        
+        gerenciador.getDao().merge(alterarForm.get());
+        gerenciador.getDao().flush();
+        setStatusMeta(id);
+         if(thisMarked){
+                 feitas--;
+                 pendentes++;
+         }
+         return redirect(routes.Application.listaMetas());
 	}
  
 	@Transactional
  	public static Result setStatusMeta(Long id){
 
- 
+		System.out.println("set status");
  		Meta meta = gerenciador.getDao().findByEntityId(Meta.class, id);
  		
  		if(meta.getStatus()){
