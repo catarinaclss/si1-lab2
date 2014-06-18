@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -95,32 +94,6 @@ public class GerenciadorMetas {
         }
 	}
 
-	public int ordenaPorData(Meta meta1, Meta meta2) throws ParseException {
-		int result;
-		if (meta1.getDataFinal().compareTo(meta2.getDataFinal()) > 0){
-			result = 1;
-		}else if(meta1.getDataFinal().compareTo(meta2.getDataFinal()) < 0){
-			result = -1;
-		}else{
-			result = 0;
-		}
-		return result;
-		
-	}
-	
-	public int ordenaPorPrioridade(Meta meta1, Meta meta2) {
-	
-		if (meta1.getPrioridade() > meta2.getPrioridade()){
-			return -1;
-		}else if(meta1.getPrioridade() < meta2.getPrioridade()){
-			return 1;
-		}else{ 
-			return 0;
-		}
-
-		
-	}
-	
 	public int getMetasConcluidas(){
 		return concluidas;
 	}

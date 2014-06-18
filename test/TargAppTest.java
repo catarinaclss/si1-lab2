@@ -1,9 +1,14 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 
+import models.ComparadorPorData;
+import models.ComparadorPrioridade;
 import models.GerenciadorMetas;
 import models.Meta;
+import models.MetaInvalidaException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -53,9 +58,9 @@ public class TargAppTest {
 		meta1.setDataFinal("2014-06-18");
 		meta2.setDataFinal("2014-06-15");
 		meta3.setDataFinal("2014-06-13");
-		assertTrue(gerenciador.ordenaPorData(meta1, meta2) == 1);
-		assertTrue(gerenciador.ordenaPorData(meta3, meta2) == -1);
 		
+		assertTrue(new ComparadorPorData().compare(meta1, meta2) == 1);
+		assertTrue(new ComparadorPorData().compare(meta3, meta2) == -1);
 	}
 	
 	@Test
@@ -64,14 +69,14 @@ public class TargAppTest {
 		meta1.setPrioridade(1);
 		meta2.setPrioridade(2);
 		meta3.setPrioridade(3);
-		assertTrue(gerenciador.ordenaPorPrioridade(meta1, meta2) == 1);
-		assertTrue(gerenciador.ordenaPorPrioridade(meta3, meta2) == -1);
+		assertTrue(new ComparadorPrioridade().compare(meta1, meta2) == 1);
+		assertTrue(new ComparadorPrioridade().compare(meta3, meta2) == -1);
 		
 
 		
 	}
 	
-	
+
 	
 	
 	

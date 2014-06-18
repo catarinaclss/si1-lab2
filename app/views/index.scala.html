@@ -42,7 +42,6 @@
 						
 						}else{
 						
-						
 							@if(meta.getPrioridade() == 1){
 								<tr style="background-color: #f56868; margin-top: 5px;" >
 							}@if(meta.getPrioridade() == 2){
@@ -52,7 +51,7 @@
 							}
 						}		
 							<td style="margin-left: 10px"><img src=@routes.Assets.at("images/pin_icon.png") alt="" style="margin-left: -15px; margin-top: -8px;"></img>@meta.getDescricao()</td>
-							<td>@meta.getDataFinal()</td>
+							<td>@meta.getDataFinal().format("dd MMMM yyyy")</td>
 							<td>@meta.getStringStatus()</td>
 							<td>
 								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
