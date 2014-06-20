@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import models.ComparadorPrioridade;
 import models.ComparadorPorData;
+import models.ComparadorPrioridade;
 import models.GerenciadorMetas;
 import models.Meta;
+import models.MetaInvalidaException;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -24,22 +25,25 @@ public class Application extends Controller {
 	private static int pendentes = 0;
  
 	@Transactional
-	public static Result listaMetas() throws ParseException{
+	public static Result listaMetas() throws ParseException, MetaInvalidaException{
+		povoaLista();
+	
 		List<Meta> metas = gerenciador.getDao().findAllByClassName("Meta");
 		pendentes = metas.size() - feitas;
 		
     	List<Integer> semanas = new ArrayList<>();
- 
+    	Collections.sort(semanas);
+		
 		int aux = 0;
 		for (Meta meta : metas) {
 			if(aux != gerenciador.getSemana(meta)){
 				aux = gerenciador.getSemana(meta);
-				semanas.add(aux);
+				semanas.add(aux);		
 			}
 		}
+
 		Collections.sort(metas, new ComparadorPrioridade());
 		Collections.sort(metas, new ComparadorPorData());
-		
 		Collections.sort(semanas);
 		return ok(index.render(semanas, metas, metaForm, feitas, pendentes));
 	}
@@ -94,7 +98,7 @@ public class Application extends Controller {
 		boolean thisMarked = getMeta(id).getStatus();
 		Form<Meta> alterarForm = Form.form(Meta.class).bindFromRequest();
 		if (alterarForm.hasErrors()) {
-			return badRequest(editar.render(id, alterarForm,feitas, pendentes ));
+			return badRequest(editar.render(id, alterarForm, feitas, pendentes ));
 		}
 		gerenciador.getDao().merge(alterarForm.get());
 		gerenciador.getDao().flush();
@@ -131,6 +135,47 @@ public class Application extends Controller {
 	
 	private static Meta getMeta(Long id){
 		return gerenciador.getDao().findByEntityId(Meta.class, id);
+	}
+	
+	private static void povoaLista() throws MetaInvalidaException {
+		if(gerenciador.getDao().findAllByClassName("Meta").isEmpty()){
+
+			Meta meta1 = new Meta("Fazer correção dos labs", 1, "2014-06-22");
+			gerenciador.getDao().persist(meta1);
+
+			Meta meta2 = new Meta("Fazer lista de fisica moderna", 2,
+					"2014-07-21");
+			gerenciador.getDao().persist(meta2);
+
+			Meta meta3 = new Meta(
+					"Terminar manual do desenvolvedor para projeto", 1,
+					"2014-07-03");
+			gerenciador.getDao().persist(meta3);
+
+			Meta meta4 = new Meta("Organizar o quarto", 3, "2014-07-01");
+			gerenciador.getDao().persist(meta4);
+
+			Meta meta5 = new Meta("Verificar pendencias para viagem", 3,
+					"2014-07-01");
+			gerenciador.getDao().persist(meta5);
+
+			Meta meta6 = new Meta("Resolver problemas com RG", 1, "2014-06-29");
+			gerenciador.getDao().persist(meta6);
+
+			Meta meta7 = new Meta("Voltar para a academia", 2, "2014-07-05");
+			gerenciador.getDao().persist(meta7);
+
+			Meta meta8 = new Meta("fazer manutenção no carro", 3, "2014-07-06");
+			gerenciador.getDao().persist(meta8);
+
+			Meta meta9 = new Meta("estudar para provas", 2, "2014-06-29");
+			gerenciador.getDao().persist(meta9);
+
+			Meta meta10 = new Meta("Terminar documentação para projeto", 1,
+					"2014-07-15");
+			gerenciador.getDao().persist(meta10);
+    		
+    	}
 	}
  
 }
