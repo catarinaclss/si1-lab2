@@ -36,7 +36,7 @@ public class TargAppTest {
 	public void devePossuirLimiteParaInsercao() throws ParseException{
 		
 		meta1.setDescricao("descricao");
-		meta1.setDataFinal("2014-07-31");
+		meta1.setDataFinal("2014-08-31");
 		
 		try{
 			gerenciador.adicionaMeta(meta1);
@@ -47,7 +47,7 @@ public class TargAppTest {
 		assertFalse(gerenciador.podeInserir(meta1));
 		assertFalse(gerenciador.getListMetas().contains(meta1));
 		
-		meta1.setDataFinal("2014-06-18");
+		meta1.setDataFinal("2014-07-18");
 		assertTrue(gerenciador.podeInserir(meta1));
 		
 	}
